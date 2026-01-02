@@ -21,10 +21,10 @@
       min-height:100vh;
       display:grid;
       place-items:center;
-      background:
-        radial-gradient(1200px 800px at 20% 10%, rgba(82,155,255,0.18), transparent 55%),
-        radial-gradient(1000px 900px at 80% 90%, rgba(236,72,153,0.14), transparent 60%),
-        var(--bg);
+      background-image: url("Verano2.png");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
       color:var(--text);
       font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
       padding:18px;
@@ -59,7 +59,7 @@
       padding:12px 14px;
       font-weight:800;
       cursor:pointer;
-      background:#3b82f6;
+      background:#e90303;
       color:white;
       transition:transform .12s ease, opacity .2s ease, box-shadow .12s ease;
       box-shadow:0 12px 28px rgba(0,0,0,0.25);
@@ -74,18 +74,22 @@
       box-shadow:none;
     }
     .card{
-      background: rgba(10,14,30,0.9);
-      border:1px solid var(--stroke);
+      background: rgba(10,14,30,0.25);
+      border:1px solid rgba(255,255,255,0.15);
       border-radius:18px;
       padding:16px;
-      box-shadow:0 26px 90px rgba(0,0,0,0.35);
-      backdrop-filter: blur(8px);
+      box-shadow:0 26px 90px rgba(0,0,0,0.15);
+      backdrop-filter: blur(12px);
       align-items:center;
     }
     .layout{
       gap:16px;
       grid-template-columns:1fr;
       align-items:center;
+      background: rgba(255,255,255,0.05);
+      border-radius:12px;
+      backdrop-filter: blur(8px);
+      padding:8px;
     }
     @media (min-width: 920px){
       .layout{
@@ -128,7 +132,25 @@
       letter-spacing:0.4px;
       backdrop-filter: blur(10px);
       box-shadow:0 12px 24px rgba(0,0,0,0.35);
-      pointer-events:none;
+      pointer-events:auto;
+    }
+    .hub button{
+      width:70px;
+      height:70px;
+      border-radius:50%;
+      font-size:14px;
+      padding:0;
+      background:#EA1F27;
+      border:2px solid rgba(255,255,255,0.3);
+      box-shadow:0 8px 20px rgba(0,0,0,0.3);
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .hub button:hover{
+      transform:scale(1.05);
+      box-shadow:0 10px 25px rgba(0,0,0,0.4);
+    }
+    .hub button:active{
+      transform:scale(0.95);
     }
     .pointerWrap{
       position:absolute;
@@ -250,14 +272,23 @@
     .tiny{ font-size:12px; opacity:.78; }
     .open .drawerOverlay{ opacity:1; pointer-events:auto; }
     .open .drawer{ transform: translateX(0); }
+    .logo-overlay{
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 400px;
+      height: auto;
+      z-index: 100;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
+  <img src="Logo.png" class="logo-overlay" alt="Logo">
   <div class="wrap">
     <div class="topbar">
       <div class="brand">
         <span class="dot"></span>
-        Ruleta Decide
       </div>
       <div class="topActions">
         <button id="shufflePaletteBtn" class="ghost">Mezclar colores</button>
@@ -274,12 +305,11 @@
           </div>
           <canvas id="wheel" width="900" height="900"></canvas>
           <div class="ring"></div>
-          <div class="hub"></div>
+          <div class="hub">
+            <button id="spinBtn">Girar</button>
+          </div>
         </div>
 
-        <div class="actions">
-          <button id="spinBtn">Girar</button>
-        </div>
         <div id="result" class="result">Resultado: —</div>
       </div>
     </div>
@@ -382,8 +412,8 @@
     const radius = Math.min(W, H) * 0.45;
     const labelRadius = radius * 0.7;
 
-    const defaultItems = ["Sí", "No", "Tal vez", "Repite", "Otra ronda", "Pizza", "Ejercicio", "Siesta"];
-    let palette = ["#ef4444","#f97316","#f59e0b","#22c55e","#06b6d4","#3b82f6","#6366f1","#8b5cf6","#d946ef","#ec4899"];
+    const defaultItems = ["Pregunta", "10 Sentadillas", "Pregunta", "Baile", "Pregunta","Haz equilibrio","Pregunta","Baile"];    
+    let palette = ["#FFAE42","#3BB2BE","#BA4F90","#ED4D6D","#FFAE42","#4DC4CA","#BA4F90","#ED4D6D","#FFAE42","#4DC4CA"];
 
     const state = {
       items: [],
@@ -508,7 +538,7 @@
           const y = Math.sin(a) * ringR;
           ctx.beginPath();
           ctx.arc(x, y, dotR, 0, Math.PI*2);
-          ctx.fillStyle = "var(--peg)";
+          ctx.fillStyle = "white";
           ctx.fill();
           ctx.strokeStyle = "rgba(0,0,0,0.28)";
           ctx.lineWidth = 2;
