@@ -2,11 +2,11 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Ruleta</title>
   <style>
     :root{
-      --size: clamp(320px, 70vw, 580px);
+      --size: min(85vw, 85vh, 580px);
       --bg: #0b1022;
       --panel: rgba(255,255,255,0.04);
       --stroke: rgba(255,255,255,0.12);
@@ -14,6 +14,7 @@
       --accent: #f8d34c;
       --pointer: #f8d34c;
       --peg: #f8fafc;
+      --mobile-breakpoint: 768px;
     }
     *{ box-sizing:border-box; }
     body{
@@ -27,19 +28,66 @@
       background-attachment: fixed;
       color:var(--text);
       font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      padding:18px;
+      padding: 60px 12px 20px;
+      overflow-x: hidden;
     }
     .wrap{
-      width:min(1100px, 96vw);
+      width: 100%;
+      max-width: 1100px;
       display:grid;
       gap:12px;
+      padding: 0 12px;
+      margin: 0 auto;
     }
     .topbar{
       display:flex;
       align-items:center;
-      justify-content:space-between;
+      justify-content:center;
       gap:12px;
       flex-wrap:wrap;
+      margin-bottom: 10px;
+    }
+    
+    @media (max-width: 767px) {
+      .topbar {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .brand {
+        margin-bottom: 10px;
+      }
+      
+      .actions {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+      
+      button {
+        width: 100%;
+        max-width: 280px;
+      }
+      
+      .result {
+        font-size: 16px;
+        padding: 10px 12px;
+      }
+    }
+    
+    @media (max-height: 500px) and (orientation: landscape) {
+      :root {
+        --size: 60vh;
+      }
+      
+      body {
+        padding: 60px 12px 10px;
+      }
+      
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
     }
     .brand{
       display:flex; align-items:center; gap:10px;
@@ -102,12 +150,13 @@
       gap:14px;
     }
     .wheelBox{
-      width:var(--size);
-      height:var(--size);
-      position:relative;
-      display:grid;
-      place-items:center;
-      isolation:isolate;
+      width: var(--size);
+      height: var(--size);
+      position: relative;
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+      margin: 0 auto;
     }
     canvas{
       width:100%;
@@ -123,7 +172,8 @@
     }
     .hub{
       position:absolute;
-      width:88px; height:88px;
+      width: 70px;
+      height: 70px;
       border-radius:50%;
       background:rgba(255,255,255,0.08);
       border:1px solid rgba(255,255,255,0.16);
@@ -135,10 +185,10 @@
       pointer-events:auto;
     }
     .hub button{
-      width:70px;
-      height:70px;
+      width: 56px;
+      height: 56px;
       border-radius:50%;
-      font-size:14px;
+      font-size:12px;
       padding:0;
       background:#EA1F27;
       border:2px solid rgba(255,255,255,0.3);
@@ -284,7 +334,7 @@
   </style>
 </head>
 <body>
-  <img src="Logo.png" class="logo-overlay" alt="Logo">
+  <img src="Logo.png" class="logo-overlay" alt="Logo" style="position: fixed; top: 16px; left: 16px; height: 40px; z-index: 1000; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
   <div class="wrap">
     <div class="topbar">
       <div class="brand">
